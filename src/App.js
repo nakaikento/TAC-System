@@ -8,6 +8,7 @@ import SimpleBackdrop from './SimpleBackdrop.js'
 import NestedGrid from './NestedGrid.js'
 import Text from './Text.js'
 import InputWithIcon from './InputWithIcon.js'
+import BasicTextField from './BasicTextField.js'
 
 const houkokusakiData = [
   { key: 0, label: '米・麦・大豆'},
@@ -26,10 +27,20 @@ function App() {
     <div className="App" style={{padding: '50px 100px'}}>
         <h1>TACシステム</h1>
         <div className="topContainer">
-          <InputWithIcon label='報告者ユーザーID'/>
-          <InputWithIcon label='組合員コード'/>
           <TimePicker />
+          <InputWithIcon label='報告者ID'/>
+          <InputWithIcon label='組合員ID'/>
+          <BasicTextField label="都道府県"/>
+          <BasicTextField label="農協コード"/>
+          <BasicTextField label="農家区分"/>
+
           <Text />
+          <BasicTextField label="活動内容"/>
+          <BasicTextField label="活動項目"/>
+          <BasicTextField label="報告先"/>
+        </div>
+        <div>
+
         </div>
 
     </div>
