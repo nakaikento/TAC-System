@@ -59,25 +59,41 @@ def index():
                    if terms[key].get('doc_freq') else 0 for key in terms.keys() }
     tfidfs = [value['term'] for value in result['terms_tfidf']]
     # pprint(result)
+    def get_category_top3(tfidfs, feature_names, model_path):
 
-    tfidf_list = np.zeros(len(houkokusaki_feature_names))
-    for item in tfidfs:
-        if item in houkokusaki_feature_names:
-            index = houkokusaki_feature_names.index(item)
-            tfidf_list[index] = term2tfidf[item]
 
-    tfidf_matrix = np.array(tfidf_list).reshape((1,-1))
+        def tfidf_matrix_generator(tfidfs, feature_names):
+            tfidf_list = np.zeros(len(feature_names))
+            for item in tfidfs:
+                if item in feature_names:
+                    index = feature_names.index(item)
+                    tfidf_list[index] = term2tfidf[item]
 
-    # モデル読み込み
-    model_file_path = os.path.join(os.path.dirname(__file__), 'model/lightGBM_houkokusaki_model.txt')
-    bst = lgb.Booster(model_file=model_file_path)
-    # 予測
-    y_pred = bst.predict(tfidf_matrix)
-    y_ans = y_pred.argsort().flatten()
-    unique = ['畜産物', '農薬', '燃料', '施設', '飼料', '青果物', '資材', '共済', '米・麦・大豆', '肥料', '農機', '信用', 'その他']
-    top3 = [unique[ans] for ans in y_ans][:3]
-    res = [{ 'key' : i, 'label' : top3[i] } for i in range(len(top3))]
-    return jsonify(res)
+            tfidf_matrix = np.array(tfidf_list).reshape((1,-1))
+            return tfidf_matrix
+
+        tfidf_matrix = tfidf_matrix_generator(tfidfs, houkokusaki_feature_names)
+
+        # モデル読み込み
+        bst = lgb.Booster(model_file=model_path)
+        # 予測
+        y_pred = bst.predict(tfidf_matrix)
+        y_ans = y_pred.argsort().flatten()
+        unique = ['畜産物', '農薬', '燃料', '施設', '飼料', '青果物', '資材', '共済', '米・麦・大豆', '肥料', '農機', '信用', 'その他']
+        top3 = [unique[ans] for ans in y_ans][:3]
+        res = [{ 'key' : i, 'label' : top3[i] } for i in range(len(top3))]
+
+        return res
+
+    # 報告先
+    houkokusaki_model_file_path = os.path.join(os.path.dirname(__file__), 'model/lightGBM_houkokusaki_model.txt')
+    houkokusaki_res = get_category_top3(tfidfs, houkokusaki_feature_names, houkokusaki_model_file_path)
+
+    # 活動内容
+    # houkokusaki_model_file_path = os.path.join(os.path.dirname(__file__), 'model/lightGBM_houkokusaki_model.txt')
+    # houkokusaki_res = get_category_top3(tfidfs, houkokusaki_feature_names, houkokusaki_model_file_path)
+
+    return jsonify(houkokusaki_res)
 
 
 if __name__ == "__main__":
