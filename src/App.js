@@ -12,7 +12,6 @@ import InputWithIcon from './InputWithIcon.js'
 import BasicTextField from './BasicTextField.js'
 
 const FLASK_ENDPOINT = 'http://127.0.0.1:5050/query/';
-
 function App() {
 
   const [reportTos, setReportTos] = useState([])
@@ -22,9 +21,7 @@ function App() {
     console.log('input text: ', inputText);
     // prevent page reload
     e.preventDefault();
-    // set loading status
-    // setLoading(true);
-    // HTTP request for Flask
+    // 報告先
     axios
       .get(FLASK_ENDPOINT, {
         params : {
@@ -36,15 +33,10 @@ function App() {
         const setData = datas.map(data => {
           return data.label
         });
-        console.log(Array.isArray(setData));
         // state update
         setReportTos(setData);
       }).catch(err => {
         console.log('err:', err);
-      }).then(function () {
-        // always executed
-        // set loading status
-        // setLoading(false);
       });
   }
 
@@ -63,14 +55,11 @@ function App() {
           <BasicTextField label="都道府県"/>
           <BasicTextField label="農協コード"/>
           <BasicTextField label="農家区分"/>
-
           <Text handleInputTextChange={e => handleInputTextChange(e)}
                 handleGetApiData={e => handleGetApiData(e)}
                 reportTos = {reportTos}
           />
-          <BasicTextField label="活動内容"/>
-          <BasicTextField label="活動項目"/>
-          // <p>{reportTos}</p>
+
         </div>
     </div>
   );

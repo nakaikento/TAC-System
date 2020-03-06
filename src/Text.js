@@ -6,11 +6,11 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
-const houkokusakiData = [
-  { key: 0, label: '米・麦・大豆'},
-  { key: 1, label: '青果物'},
-  { key: 2, label: '農機'},
-];
+// const houkokusakiData = [
+//   { key: 0, label: '米・麦・大豆'},
+//   { key: 1, label: '青果物'},
+//   { key: 2, label: '農機'},
+// ];
 // const katudoNaiyoData = [
 //   { key: 0, label: '農業経営相談'},
 //   { key: 1, label: '営農相談'},
@@ -20,7 +20,7 @@ const houkokusakiData = [
 function Text(props) {
 
   const [open, setOpen] = useState(false);
-  const houkokusakiData = props.reportTos;
+  const reportTos = props.reportTos;
   // const houkokusakiData = props.reportTos.map(reportTo =>{
   //   { key : reportTo.key,
   //     label : reportTo.label }
@@ -47,8 +47,7 @@ function Text(props) {
           </div>
             <div className="info" style={{width: '15%', }}>
             <p>報告先</p>
-            <ChipsArray data={houkokusakiData} />
-            // <p>活動内容</p>
+            <ChipsArray data={reportTos} />
           </div>
         </div>
       );
