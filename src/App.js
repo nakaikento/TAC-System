@@ -32,12 +32,11 @@ function App() {
         }
       })
       .then(res => {
-        const data = res.data;
-        console.log(data);
-        const setData = (data.map(d =>
-          {key: d.key, label : d.label}
-        ));
-        // console.log(setData);
+        const datas = res.data;
+        const setData = datas.map(data => {
+          return { key : data.key, label : data.label }
+        });
+        console.log(Array.isArray(setData));
         // state update
         setReportTos(setData);
       }).catch(err => {
