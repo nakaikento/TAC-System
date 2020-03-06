@@ -9,13 +9,14 @@ import SimpleBackdrop from './SimpleBackdrop.js'
 import NestedGrid from './NestedGrid.js'
 import Text from './Text.js'
 import InputWithIcon from './InputWithIcon.js'
-import BasicTextField from './BasicTextField.js'
+// import BasicTextField from './BasicTextField.js'
 
 const FLASK_ENDPOINT = 'http://127.0.0.1:5050/query/';
 function App() {
 
-  const [reportTos, setReportTos] = useState([])
-  const [inputText, setInputText] = useState('')
+  const [reportTos, setReportTos] = useState([]);
+  const [inputText, setInputText] = useState('');
+  const [inputTitle, setInputTitle] = useState('');
 
   function handleGetApiData(e) {
     console.log('input text: ', inputText);
@@ -45,6 +46,11 @@ function App() {
     setInputText(text);
   }
 
+  function handleInputTitleChange(title) {
+    // state update
+    setInputTitle(title);
+  }
+
   return (
     <div className="App" style={{padding: '50px 100px'}}>
         <h1>TACシステム</h1>
@@ -52,14 +58,11 @@ function App() {
           <TimePicker />
           <InputWithIcon label='報告者ID'/>
           <InputWithIcon label='組合員ID'/>
-          <BasicTextField label="都道府県"/>
-          <BasicTextField label="農協コード"/>
-          <BasicTextField label="農家区分"/>
           <Text handleInputTextChange={e => handleInputTextChange(e)}
+                handleInputTitleChange={e => handleInputTitleChange(e)}
                 handleGetApiData={e => handleGetApiData(e)}
                 reportTos = {reportTos}
           />
-
         </div>
     </div>
   );
