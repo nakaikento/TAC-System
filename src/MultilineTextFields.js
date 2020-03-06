@@ -24,7 +24,7 @@ export default function MultilineTextFields(props) {
           multiline
           rows={rows}
           variant="outlined"
-          onChange={(e) => props.handleInputTextChange(e.target.value)}
+          onChange={(e) => props.handleInputChange(e.target.value)}
         />
       </form>
   );
