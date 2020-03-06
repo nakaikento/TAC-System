@@ -13,13 +13,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function MultilineTextFields(props) {
   const classes = useStyles();
-  // const [value, setValue] = React.useState('Controlled');
   const [label, setLabel] = React.useState(props.label);
   const [rows, setRows] = React.useState(props.rows);
-
-  // const handleChange = event => {
-  //   setValue(event.target.value);
-  // };
 
   return (
       <form className={classes.root} noValidate autoComplete="off">
@@ -29,6 +24,7 @@ export default function MultilineTextFields(props) {
           multiline
           rows={rows}
           variant="outlined"
+          onChange={(e) => props.handleInputTextChange(e.target.value)}
         />
       </form>
   );

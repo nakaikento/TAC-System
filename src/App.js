@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import './App.css';
 import ChipsArray from './ChipsArray.js'
 import MultilineTextFields from './MultilineTextFields.js'
@@ -10,18 +11,48 @@ import Text from './Text.js'
 import InputWithIcon from './InputWithIcon.js'
 import BasicTextField from './BasicTextField.js'
 
-const houkokusakiData = [
-  { key: 0, label: '米・麦・大豆'},
-  { key: 1, label: '青果物'},
-  { key: 2, label: '農機'},
-];
-const katudoNaiyoData = [
-  { key: 0, label: '農業経営相談'},
-  { key: 1, label: '営農相談'},
-  { key: 2, label: '商品提案'},
-];
+const FLASK_ENDPOINT = 'http://127.0.0.1:5050/query/';
 
 function App() {
+
+  const [reportTos, setReportTos] = useState([])
+  const [inputText, setInputText] = useState('')
+
+  function handleGetApiData(e) {
+    console.log('input text: ', inputText);
+    // prevent page reload
+    e.preventDefault();
+    // set loading status
+    // setLoading(true);
+    // HTTP request for Flask
+    axios
+      .get(FLASK_ENDPOINT, {
+        params : {
+          text : inputText
+        }
+      })
+      .then(res => {
+        const data = res.data;
+        console.log(data);
+        const setData = (data.map(d =>
+          {key: d.key, label : d.label}
+        ));
+        // console.log(setData);
+        // state update
+        setReportTos(setData);
+      }).catch(err => {
+        console.log('err:', err);
+      }).then(function () {
+        // always executed
+        // set loading status
+        // setLoading(false);
+      });
+  }
+
+  function handleInputTextChange(text) {
+    // state update
+    setInputText(text);
+  }
 
   return (
     <div className="App" style={{padding: '50px 100px'}}>
@@ -34,15 +65,14 @@ function App() {
           <BasicTextField label="農協コード"/>
           <BasicTextField label="農家区分"/>
 
-          <Text />
+          <Text handleInputTextChange={e => handleInputTextChange(e)}
+                handleGetApiData={e => handleGetApiData(e)}
+                reportTos = {reportTos}
+          />
           <BasicTextField label="活動内容"/>
           <BasicTextField label="活動項目"/>
-          <BasicTextField label="報告先"/>
+          // <p>{reportTos}</p>
         </div>
-        <div>
-
-        </div>
-
     </div>
   );
 }

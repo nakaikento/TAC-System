@@ -11,25 +11,22 @@ const houkokusakiData = [
   { key: 1, label: '青果物'},
   { key: 2, label: '農機'},
 ];
-const katudoNaiyoData = [
-  { key: 0, label: '農業経営相談'},
-  { key: 1, label: '営農相談'},
-  { key: 2, label: '商品提案'},
-];
+// const katudoNaiyoData = [
+//   { key: 0, label: '農業経営相談'},
+//   { key: 1, label: '営農相談'},
+//   { key: 2, label: '商品提案'},
+// ];
 
-function Text() {
-  const [estimeStatus, setEstimeStatus] = useState(false);
-  const [value, setValue] = useState("");
+function Text(props) {
+
   const [open, setOpen] = useState(false);
+  const houkokusakiData = props.reportTos;
+  // const houkokusakiData = props.reportTos.map(reportTo =>{
+  //   { key : reportTo.key,
+  //     label : reportTo.label }
+  // });
 
 
-  function handleTextChange(textValue) {
-    setValue(textValue);
-  }
-
-  function handleSubmit(e) {
-    alert(value);
-  }
 
   const useStyles = makeStyles(theme => ({
     backdrop: {
@@ -38,51 +35,21 @@ function Text() {
     },
   }));
 
-  function SimpleBackdrop(props) {
-    const classes = useStyles();
-    const label = props.label;
-    return (
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            setOpen(!open);
-            setTimeout(() => {
-              setOpen(false);
-              setEstimeStatus(true);
-            }, 3000);
-          }}
-        >
-          {label}
-        </button>
-        <Backdrop
-          className={classes.backdrop}
-          open={open}
-          onClick={() => {
-            setOpen(false);
-          }}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </div>
-    );
-  }
-
   return (
         <div>
           <div className="text">
             <MultilineTextFields className="title" label='タイトル' rows='1'/>
-            <MultilineTextFields className="detail" label='詳細内容' rows='8'/>
-            <SimpleBackdrop label='確認' />
+            <MultilineTextFields className="detail"
+                                 label='詳細内容'
+                                 rows='8'
+                                 handleInputTextChange={e => props.handleInputTextChange(e)}/>
+            <SimpleBackdrop label='確認' handleGetApiData={e => props.handleGetApiData(e)}/>
           </div>
-          { estimeStatus &&
             <div className="info" style={{width: '15%', }}>
-            <p>報告先の候補</p>
+            <p>報告先</p>
             <ChipsArray data={houkokusakiData} />
-            <p>活動内容の候補</p>
-            <ChipsArray data={katudoNaiyoData} />
+            // <p>活動内容</p>
           </div>
-          }
         </div>
       );
 }

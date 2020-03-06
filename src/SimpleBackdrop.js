@@ -12,27 +12,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleBackdrop(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const label = props.label;
   return (
     <div>
       <button
         type="button"
-        onClick={() => {
-          setOpen(!open);
-          setTimeout(() => {
-            setOpen(false);
-          }, 3000);
-        }}
+        onClick={props.handleGetApiData}
+        // onClick={() => {
+        //   setOpen(!open);
+        //   setTimeout(() => {
+        //     setOpen(false);
+        //   }, 3000);
+        // }}
       >
         {label}
       </button>
       <Backdrop
         className={classes.backdrop}
-        open={open}
-        onClick={() => {
-          setOpen(false);
-        }}
+        // open={open}
+        // onClick={() => {
+        //   // setOpen(false);
+        //    handleGetApiData(e)
+        // }}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
