@@ -34,7 +34,7 @@ function App() {
       .then(res => {
         const datas = res.data;
         const setData = datas.map(data => {
-          return { key : data.key, label : data.label }
+          return data.label
         });
         console.log(Array.isArray(setData));
         // state update
