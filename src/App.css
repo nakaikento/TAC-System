@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+div + div {
+  margin-top: 1em;
+}
+
 h1 {
   text-align: center;
 }
@@ -44,3 +48,7 @@ h1 {
 .info {
   margin: 5em auto;
 }
+
+.confirmButton {
+  margin-top: 1.5em;
+  }

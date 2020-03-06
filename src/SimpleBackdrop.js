@@ -15,9 +15,10 @@ export default function SimpleBackdrop(props) {
   // const [open, setOpen] = React.useState(false);
   const label = props.label;
   return (
-    <div>
+    <div className="confirmButton">
       <button
         type="button"
+
         onClick={props.handleGetApiData}
         // onClick={() => {
         //   setOpen(!open);
